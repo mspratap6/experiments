@@ -1,0 +1,12 @@
+{
+  "firebase": "cybotrack",
+  "public": "app",
+  "ignore": [
+    "firebase.json",
+	"netServer.js",
+	"webServer.js",
+	"startServer.js",
+    ".*",
+    "**/node_modules/**"
+  ]
+}
