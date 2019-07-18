@@ -1,19 +1,63 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+variables:
+  ProvisioningRequired:  $(Parameters.ProvisioningRequired)
+  ConfigurationRequired:  $(Parameters.ConfigurationRequired)
+  DeploymentRequired:  $(Parameters.DeploymentRequired)
+  Parameters.appName: $(Parameters.launchpadAppName)
+  Parameters.deploymentName: $(Build.DefinitionName)
+  
+ 
+stages:
+- stage: 'release'
+  displayName: 'Release'
 
-trigger:
-- master
+  jobs:
+  - job: 'Resource_Provisioning'
+    variables:
+      Build.SyncSources: false
+    pool:
+     name: Hosted VS2017
+    steps:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: |
+          # Write your powershell commands here.
+          
+          Write-Host "Resource_Provisioning"
+          
+          # Use the environment variables input below to pass secret variables to this script.
+    
+    
+  - job: 'Deployment'
+    variables:
+      Build.SyncSources: eq(variables.DeploymentRequired,true)
+    dependsOn: Resource_Provisioning
+    pool:
+      name: Hosted VS2017
+    steps:
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: |
+            # Write your powershell commands here.
+            
+            Write-Host "Deployment"
+            
+            # Use the environment variables input below to pass secret variables to this script.
 
-pool:
-  vmImage: 'ubuntu-latest'
-
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - job: 'Configuration'
+    variables:
+      Build.SyncSources: eq(variables.ConfigurationRequired,true)
+    dependsOn: [Resource_Provisioning, Deployment]
+    pool:
+        name: Hosted VS2017
+    steps:
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: |
+            # Write your powershell commands here.
+            
+            Write-Host "Configuration"
+            
+            # Use the environment variables input below to pass secret variables to this script.
