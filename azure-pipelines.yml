@@ -5,7 +5,6 @@ variables:
   Parameters.appName: $(Parameters.launchpadAppName)
   Parameters.deploymentName: $(Build.DefinitionName)
   
- 
 stages:
 - stage: 'release'
   displayName: 'Release'
@@ -22,11 +21,7 @@ stages:
         targetType: 'inline'
         script: |
           # Write your powershell commands here.
-          
           Write-Host "Resource_Provisioning"
-          
-          # Use the environment variables input below to pass secret variables to this script.
-    
     
   - job: 'Deployment'
     variables:
@@ -40,10 +35,7 @@ stages:
           targetType: 'inline'
           script: |
             # Write your powershell commands here.
-            
             Write-Host "Deployment"
-            
-            # Use the environment variables input below to pass secret variables to this script.
 
   - job: 'Configuration'
     variables:
@@ -57,7 +49,4 @@ stages:
           targetType: 'inline'
           script: |
             # Write your powershell commands here.
-            
             Write-Host "Configuration"
-            
-            # Use the environment variables input below to pass secret variables to this script.
