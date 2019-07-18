@@ -15,7 +15,7 @@ stages:
       Build.SyncSources: false
     pool:
      name: Hosted VS2017
-    condition: eq(variables['ProvisioningRequired'],true)
+    condition: eq(variables['ProvisioningRequired'],'true')
     steps:
     - task: PowerShell@2
       inputs:
